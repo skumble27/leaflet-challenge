@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-#mapid {
+#mapid,#bonusmapid {
   height: 600px;
   width: 1300px;
   
@@ -16,14 +16,14 @@ body {
 .mapformat{
   border-style:solid;
   border-color: black;
-  
+  box-shadow: 5px 5px 2.5px grey;
 
 }
 
 /* Set Legend Style */
-.info {
+.detail {
   padding: 1px 10px;
-  background: #ebfae2;
+  background: #b7ff8e;
   border-radius: 5px;
 }
 
@@ -45,6 +45,7 @@ h3 {
   margin: 0px;
   padding: 2px;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
 }
 
 p {
@@ -56,3 +57,21 @@ p {
 h1{
   text-align: center;
 }
+
+.leaflet-popup-content-wrapper {
+  background-color: rgb(188, 255, 188);
+}
+
+.leaflet-popup-content-wrapper h3 {
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.leaflet-popup-content-wrapper p {
+  font-size: 12px;
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+  background-color: rgb(188, 255, 188);;
+}
+
