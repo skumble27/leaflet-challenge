@@ -1,54 +1,68 @@
-// Define earthquakes plates GeoJSON url variable
-var earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+// Creating a Query URL to read the Geojson Data
+var sevenDayEarthQuakeURL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson'
 
-// Create earthquake layerGroup
-var earthquakes = L.layerGroup();
+// Creating an inital Map Object that will zoom to the West Coast of the United States where a majority of the US earthquakes occur
+var myMap = L.map("map", {
+  center: [34.0, -118.2],
+  zoom: 5
+});
 
-// Create tile layer
-var grayscaleMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+// A Background Map has been added in which to use as a template to view the location where the earthquakes have
+var baseGreyMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
   tileSize: 512,
   maxZoom: 18,
   zoomOffset: -1,
   id: "mapbox/light-v10",
   accessToken: API_KEY
-});
+}).addTo(myMap);
 
-// Create the map, giving it the grayscaleMap and earthquakes layers to display on load
-var myMap = L.map("mapid", {
-  center: [
-    37.09, -95.71
-  ],
-  zoom: 2,
-  layers: [grayscaleMap, earthquakes]
-});
+// Creating a layergroup to map out earthquake occurrings geographically
+var earthquakeLayer = L.layerGroup();
 
-d3.json(earthquakesURL, function(earthquakeData) {
-  // Determine the marker size by magnitude
-  function markerSize(magnitude) {
-    return magnitude * 4;
-  };
-  // Determine the marker color by depth
-  function chooseColor(depth) {
-    switch(true) {
-      case depth > 90:
-        return "red";
-      case depth > 70:
-        return "orangered";
-      case depth > 50:
-        return "orange";
-      case depth > 30:
-        return "gold";
-      case depth > 10:
-        return "yellow";
-      default:
-        return "lightgreen";
+// Reading the GeoJason Data
+d3.json(sevenDayEarthQuakeURL, function(data){
+  
+  // Checking to see if the data loads
+  console.log(data);
+
+  // Creating a color function
+  function magnitudeColor(richter){
+    if (richter > 90){
+      return "red";
+
     }
+
+    else if (richter > 70){
+
+      return "orangered";
+    }
+
+    else if (richter > 60){
+
+      return "orange";
+    }
+
+    else if (richter > 50){
+
+      return "gold";
+
+    }
+
+    else if (richter > 30){
+
+      return "yellow";
+    }
+
+    else {
+      return "green";
+    }
+
   }
 
   // Create a GeoJSON layer containing the features array
   // Each feature a popup describing the place and time of the earthquake
-  L.geoJSON(earthquakeData, {
+  L.geoJSON(data, {
     pointToLayer: function (feature, latlng) {
       return L.circleMarker(latlng, 
         // Set the style of the markers based on properties.mag
@@ -85,4 +99,6 @@ d3.json(earthquakesURL, function(earthquakeData) {
     return div;
   };
   legend.addTo(myMap);
-});
+})
+
+
