@@ -9,11 +9,23 @@ body {
   
 }
 
-.navbar{
+.navbar, footer{
   background-color: rgb(62, 212, 125);
+  padding: 10px;
 }
 
 .mapformat{
+  border-style:solid;
+  border-color: black;
+  box-shadow: 5px 5px 2.5px grey;
+
+}
+
+footer p{
+  text-align: center;
+}
+
+.mapformat1{
   border-style:solid;
   border-color: black;
   box-shadow: 5px 5px 2.5px grey;
